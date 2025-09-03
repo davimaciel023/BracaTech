@@ -1,0 +1,66 @@
+section {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .logo img{
+    max-width: 150px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .camposLabels {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      label {
+        font-size: 1.5rem;
+        padding-top: 10px;
+      }
+
+      input {
+        padding: 10px;
+      }
+    }
+
+    .esqueceu-senha {
+      text-align: end;
+      padding: 5px 0;
+    }
+
+    .cadastro{
+      text-align: center;
+      padding-top: 20px;
+
+      a {
+        font-size: 1.2rem;
+      }
+    }
+
+    .btn {
+      text-align: center;
+      padding: 10px 0;
+
+      button {
+        padding: 8px 40px;
+        font-size: 1.5rem;
+        background: #16A34A;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+      }
+    }
+  }
+}

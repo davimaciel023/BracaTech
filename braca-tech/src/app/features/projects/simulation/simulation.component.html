@@ -1,0 +1,196 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nova Simulação</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="salvar()" class="container">
+    <!-- Parâmetros -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Parâmetros</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list lines="inset">
+          <ion-item>
+            <ion-label position="stacked">Perímetro (m)</ion-label>
+            <ion-input type="number" formControlName="perimeterM"></ion-input>
+            <ion-note slot="helper">
+              ≈ {{ form.value.perimeterM | metersToBraca: form.value.bracaM : 2 }} braças
+            </ion-note>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Braça (m)</ion-label>
+            <ion-input type="number" step="0.01" formControlName="bracaM"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Espaçamento dos postes (m)</ion-label>
+            <ion-input type="number" step="0.1" formControlName="postSpacingM"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Nº de fios</ion-label>
+            <ion-input type="number" formControlName="strands"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Perdas (%)</ion-label>
+            <ion-range min="0" max="15" step="1" formControlName="lossPct"></ion-range>
+            <ion-note slot="end">{{ form.value.lossPct }}%</ion-note>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Terreno</ion-label>
+            <ion-select interface="popover" formControlName="terrainFactor">
+              <ion-select-option [value]="1">Plano</ion-select-option>
+              <ion-select-option [value]="1.15">Levemente acidentado (+15%)</ion-select-option>
+              <ion-select-option [value]="1.3">Acidentado (+30%)</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Portões</ion-label>
+            <ion-input type="number" formControlName="gates"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Mão de obra</ion-label>
+            <ion-select interface="popover" formControlName="laborModel">
+              <ion-select-option value="daily">Diária</ion-select-option>
+              <ion-select-option value="hourly">Hora</ion-select-option>
+              <ion-select-option value="perMeter">Por metro</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Valor mão de obra (R$)</ion-label>
+            <ion-input type="number" step="0.01" formControlName="laborValue"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Impostos/encargos (%)</ion-label>
+            <ion-input type="number" step="0.1" formControlName="taxesPct"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Preços dos materiais -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Preços dos materiais</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" sizeMd="6">
+              <ion-item>
+                <ion-label position="stacked">Poste (linha) – R$ / un</ion-label>
+                <ion-input type="number" step="0.01" formControlName="pricePostLine"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" sizeMd="6">
+              <ion-item>
+                <ion-label position="stacked">Poste (canto) – R$ / un</ion-label>
+                <ion-input type="number" step="0.01" formControlName="pricePostCorner"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" sizeMd="6">
+              <ion-item>
+                <ion-label position="stacked">Arame – R$ / metro</ion-label>
+                <ion-input type="number" step="0.01" formControlName="priceWirePerM"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" sizeMd="6">
+              <ion-item>
+                <ion-label position="stacked">Grampo – R$ / un</ion-label>
+                <ion-input type="number" step="0.01" formControlName="priceStaple"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" sizeMd="6">
+              <ion-item>
+                <ion-label position="stacked">Portão – R$ / un</ion-label>
+                <ion-input type="number" step="0.01" formControlName="priceGate"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Resultado -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Resultado</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">Braças:</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.bracas | number: '1.2-2' }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">Postes (linha / canto / total):</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.posts.line }} / {{ result?.posts.corner }} / {{ result?.posts.total }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">Arame total (m):</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.wireM }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">Materiais:</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.materialsCost | currencyBr }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">Mão de obra:</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.laborCost | currencyBr }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">Impostos:</ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.taxes | currencyBr }}</strong>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><strong>Total:</strong></ion-col>
+            <ion-col size="6">
+              <strong>{{ result?.total | currencyBr }}</strong>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-button type="submit" expand="block" [disabled]="form.invalid">
+          Salvar simulação
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

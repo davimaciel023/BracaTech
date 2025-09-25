@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isEdit ? 'Editar' : 'Nova' }} Propriedade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="save()" class="form">
+    <ion-item>
+      <ion-label position="stacked">Nome</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Perímetro (m)</ion-label>
+      <ion-input type="number" formControlName="perimeterM"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Área (ha)</ion-label>
+      <ion-input type="number" step="0.01" formControlName="areaHa"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" [disabled]="form.invalid">
+      Salvar
+    </ion-button>
+  </form>
+</ion-content>

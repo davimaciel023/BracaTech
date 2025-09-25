@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Propriedades</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="inset">
+    <ion-item *ngFor="let p of props$ | async" (click)="edit(p)">
+      <ion-label>
+        <h3>{{ p.name }}</h3>
+        <p>Perímetro: {{ p.perimeterM || 0 }} m · Área: {{ p.areaHa || 0 }} ha</p>
+      </ion-label>
+
+      <ion-button fill="clear" (click)="edit(p); $event.stopPropagation()">
+        Editar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="novo()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

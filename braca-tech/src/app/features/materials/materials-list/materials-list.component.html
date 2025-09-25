@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Materiais</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="inset">
+    <ion-item *ngFor="let m of materials$ | async" (click)="edit(m)">
+      <ion-label>
+        <h3>{{ m.name }} — {{ m.unit }}</h3>
+        <p>Categoria: {{ m.category }} · Preço: {{ m.price | currency: 'BRL' }}</p>
+      </ion-label>
+
+      <ion-button fill="clear" (click)="edit(m); $event.stopPropagation()">
+        Editar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="new()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

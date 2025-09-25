@@ -1,0 +1,7 @@
+{
+  "name": "braca-tech",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,2 +1,0 @@
-@angular/cli
-conda install -c conda-forge nodejs=22.12.0
